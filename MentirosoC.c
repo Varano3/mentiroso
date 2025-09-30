@@ -81,10 +81,28 @@ int comparar(const void *a, const void *b) {
     return x - y;                        // normal ascendente
 }
 
-void skipTurn(SOCKET sock){
-    myself.x = setDigit(myself.x, 1, getNextPlayerID(ActualID, jugadoresConectados));
-    //printf("-----%i------", myself.x);
-    setEstado(sock, myself.x, myself.y, myself.z, "skip turn");
+void endAction(SOCKET sock, int action){
+    myself.y = setDigit(myself.y, 7, action);
+
+    switch (action)
+    {
+    case 1:
+        myself.x = setDigit(myself.x, 1, getNextPlayerID(ActualID, jugadoresConectados));
+        //printf("-----%i------", myself.x);
+        setEstado(sock, myself.x, myself.y, myself.z, "Played Card");
+        break;
+    case 2:
+        myself.x = setDigit(myself.x, 1, getNextPlayerID(ActualID, jugadoresConectados));
+        //printf("-----%i------", myself.x);
+        setEstado(sock, myself.x, myself.y, myself.z, "Revealed");
+        break;
+    case 3:
+        //printf("-----%i------", myself.x);
+        setEstado(sock, myself.x, myself.y, myself.z, "discarted");
+        break;
+    default:
+        break;
+    }
 }
 
 void imprimirMano(bool ordenar){
@@ -166,13 +184,13 @@ int EmpiezaAJugar(SOCKET sock){
         if(descartaste == false) printf("No hay para descartar bro :c");
         imprimirMano(true);
         
-        myself.y = setDigit(myself.y, 7, 3);
+        endAction(sock, 3);
     }
     else{
         printf("no se ha implementado eso\n");
         
-        myself.y = setDigit(myself.y, 7, 1);
-        skipTurn(sock);
+        
+        endAction(sock, 1);
     }
 }
 
@@ -219,6 +237,8 @@ int actualizarAnteriorJugada(SOCKET sock){
 void onGame(SOCKET sock){//----------------------------------------------------ON-GAME---------------------------------------------------------------
 
     actualizarAnteriorJugada(sock);
+
+    buffer.a = 1;
 
     if(getDigit(myself.x, 1) == 9 && getDigit(myself.x, 2) == 9) {
         return; //el jugador ya ha ganado
