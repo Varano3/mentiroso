@@ -1,0 +1,8 @@
+{
+    "files.associations": {
+        "*.maven": "c",
+        "windows.h": "c",
+        "winsock2.h": "c",
+        "conio.h": "c"
+    }
+}
