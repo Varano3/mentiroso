@@ -68,3 +68,13 @@ void UpdateID(){
     }
     
 }
+
+int comparar(const void *a, const void *b) {
+    int x = *(int*)a;
+    int y = *(int*)b;
+
+    if (x == 0 && y == 0) return 0;      // ambos son 0 → iguales
+    if (x == 0) return 1;                // x va al final
+    if (y == 0) return -1;               // y va al final
+    return x - y;                        // normal ascendente
+}

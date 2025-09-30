@@ -1,5 +1,3 @@
-#pragma comment(lib, "ws2_32.lib")
-
 //damn daniel
 #include "MirmecoFunciones.h"
 
@@ -65,20 +63,10 @@ void actualizarEstado(SOCKET sock, bool scan){ //scan es 1 o 0, si es 1 pide dat
         myself.z = buffer.d;
 
         printf("Introduce mensaje: ");
-        scanf("%s", &buffer.msg);
+        scanf("%s", buffer.msg);
     }
 
     send(sock,(char*)&buffer,sizeof(buffer),0);
-}
-
-int comparar(const void *a, const void *b) {
-    int x = *(int*)a;
-    int y = *(int*)b;
-
-    if (x == 0 && y == 0) return 0;      // ambos son 0 → iguales
-    if (x == 0) return 1;                // x va al final
-    if (y == 0) return -1;               // y va al final
-    return x - y;                        // normal ascendente
 }
 
 void endAction(SOCKET sock, int action){
@@ -109,14 +97,29 @@ void endAction(SOCKET sock, int action){
 
 void imprimirMano(bool ordenar){
 
-    if(ordenar = true){
-        //printf("Tu mano sin ordenar es: \n");
-        //for (int i = 0; i < 52; i++)
-        //{
-        //    if(manoActual[i] == 0) break; //si ya no hay más cartas, se sale
-        //    printf("%i ",manoActual[i]);
-        //}
+    if(ordenar == true){
+
         qsort(manoActual, sizeof(manoActual) / sizeof(manoActual[0]), sizeof(int), comparar); // ordenar la mano
+        for (int i = 0; i < 52; i++)
+        {   
+            int val = 0, times = 0;
+            if(manoActual[i] == 0) {
+                //if(val != 0){
+                //    printf("%i cartas de %i", times, val);
+                //}
+                break; //si ya no hay más cartas, se sale
+            }
+            if((manoActual[i] + 3) / 4 == val){
+                times++;
+            }
+            else {
+                if(val != 0){
+                    printf("%i cartas de %i \n", times, val);
+                }
+                val = (manoActual[i] + 3) / 4;
+                times = 1;
+            }
+        }
     }
 
     printf("Tu mano actual es: \n");
@@ -174,7 +177,7 @@ void descartar4(){
         }
         else {
             val = (manoActual[i] + 3) / 4;
-            printf("Los %i ?", val);
+            //printf("Los %i ?", val);
             times = 1;
         }
     }
@@ -258,6 +261,7 @@ int actualizarAnteriorJugada(SOCKET sock){
     }
 
     Sleep(100); //estamos todos sincronizados (mas o menos xd)
+    skibidi
 }
 
 void onGame(SOCKET sock){//----------------------------------------------------ON-GAME---------------------------------------------------------------
@@ -392,8 +396,9 @@ void waitingForGame(SOCKET sock){ //esperando a que todos estén listos
         }
         else{
             printf("Ready? (yes = 1, no = 0): "); //everybody must be ready to start
-
-            scanf("%i", &ready);
+            int a;
+            scanf("%i", &a);
+            ready = (BOOLEAN)a;
             if(ready != 1) ready = 0; //sanitización de input
         }
 }

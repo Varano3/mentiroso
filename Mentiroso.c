@@ -1,10 +1,8 @@
-#pragma comment(lib, "ws2_32.lib")
-
 #include "MirmecoFunciones.h"
 
 CRITICAL_SECTION lock;//multiplayer data
 
-int mazoDeRobo[52] = {};
+int mazoDeRobo[52] = {0};
 int cartasPorJugador = 0;
 int cartasRepartidas = 0;
 
@@ -36,7 +34,6 @@ DWORD WINAPI client_thread(LPVOID arg) {//multiplayer data
     }
 
     while(true) {
-        char nameOption[NAME_LEN];
         // option.a = 1 actualizar, 2 leer
         // option.b = x o índice
         // option.c = y (solo si actualizar)

@@ -27,7 +27,7 @@ const char *caras[10] =
     "Cara excitada"
 };
 
-const char *cartas[14] = 
+const char *cartas[13] = 
 {
     "clingai",
     "dos",
@@ -41,8 +41,7 @@ const char *cartas[14] =
     "zeid",
     "agresividad",
     "dios salve a la reina",
-    "Ka",
-    "jimbo"
+    "Ka"
 };
 
 const char *palo[5] = {
