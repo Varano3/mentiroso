@@ -84,6 +84,8 @@ int comparar(const void *a, const void *b) {
 void endAction(SOCKET sock, int action){
     myself.y = setDigit(myself.y, 7, action);
 
+    Sleep(50);
+
     switch (action)
     {
     case 1:
@@ -151,36 +153,37 @@ int playerTurn; //turno del jugador actual (su ID)
 Player lastPlayer;
 
 void descartar4(){
-        bool descartaste = false;
-        qsort(manoActual, sizeof(manoActual) / sizeof(manoActual[0]), sizeof(int), comparar); //ordenar la mano por si acaso
-        int val = 0, times = 0;
-        for (int i = 0; i < 52; i++)
-        {
-            if(manoActual[i] == 0) break; //si ya no hay más cartas, se sale
-            if((manoActual[i] + 3) / 4 == val){
-                times++;
-                if(times == 4){
-                    manoActual[i] = 0;
-                    manoActual[i - 1] = 0;
-                    manoActual[i - 2] = 0;
-                    manoActual[i - 3] = 0;
-                    printf("Has descartado los %i \n", val);
-                    val = 0;
-                    descartaste = true;
-                }
-            }
-            else {
-                val = (manoActual[i] + 3) / 4;
-                printf("Los %i ?", val);
-                times = 1;
+    Sleep(50);
+    bool descartaste = false;
+    qsort(manoActual, sizeof(manoActual) / sizeof(manoActual[0]), sizeof(int), comparar); //ordenar la mano por si acaso
+    int val = 0, times = 0;
+    for (int i = 0; i < 52; i++)
+    {
+        if(manoActual[i] == 0) break; //si ya no hay más cartas, se sale
+        if((manoActual[i] + 3) / 4 == val){
+            times++;
+            if(times == 4){
+                manoActual[i] = 0;
+                manoActual[i - 1] = 0;
+                manoActual[i - 2] = 0;
+                manoActual[i - 3] = 0;
+                printf("Has descartado los %i \n", val);
+                val = 0;
+                descartaste = true;
             }
         }
-        if(descartaste == false) printf("No hay para descartar bro :c");
-        imprimirMano(true);
+        else {
+            val = (manoActual[i] + 3) / 4;
+            printf("Los %i ?", val);
+            times = 1;
+        }
+    }
+    if(descartaste == false) printf("No hay para descartar bro :c");
+    imprimirMano(true);
 }
 
 int EmpiezaAJugar(SOCKET sock){
-    Sleep(30);
+    Sleep(50);
     printf("Que quieres hacer? \n 0 = jugar carta \n 1 = descartar 4 iguales\n");
     int decision;
     scanf("%i", &decision);
@@ -189,16 +192,17 @@ int EmpiezaAJugar(SOCKET sock){
         descartar4();
         endAction(sock, 3);
     }
-    else{
+    else if(decision == 0){
         printf("no se ha implementado eso\n");
-        
         
         endAction(sock, 1);
     }
+    else endAction(sock, 4);
+    skibidi
 }
 
 int ContinuaJugada(SOCKET sock){
-    Sleep(30);
+    Sleep(50);
     printf("El jugador anterior jugo %i \n", lastPlayer.y);
     printf("Que quieres hacer? \n 0 = jugar carta \n 1 = descartar 4 iguales \n 2 = levantar carta\n");
     int decision;
@@ -218,6 +222,7 @@ int ContinuaJugada(SOCKET sock){
            
         endAction(sock, 2);
     }
+    else endAction(sock, 4);
     skibidi
 }
 
@@ -259,6 +264,8 @@ void onGame(SOCKET sock){//----------------------------------------------------O
 
     actualizarAnteriorJugada(sock);
 
+    Sleep(100);
+
     buffer.a = 1;
 
     if(getDigit(myself.x, 1) == 9 && getDigit(myself.x, 2) == 9) {
@@ -287,7 +294,7 @@ void onGame(SOCKET sock){//----------------------------------------------------O
         Sleep(100 + GetRandomInteger(50, 25)); //estamos todos sincronizados (mas o menos xd)
     }
 
-    Sleep(100);
+    Sleep(200);
 }
 
 void atStartingGame(SOCKET sock){ //robar cartas, empieza el de indice 0, etc
