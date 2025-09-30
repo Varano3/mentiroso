@@ -134,6 +134,10 @@ DWORD WINAPI client_thread(LPVOID arg) {//multiplayer data
     players[idx].active = 0;
     LeaveCriticalSection(&lock);
     closesocket(sock); //no veas como me llora el compilador bro
+
+    int a = GetRandomInteger(10, 7* jugadoresConectados);
+    Sleep(200 + a);
+
     skibidi
 }
 
@@ -190,7 +194,6 @@ int main() {
     for(int i=0;i<MAX_CLIENTS;i++) players[i].active=0;
 
     while(1) {
-
         if(gameStarted == true){
             printf("Un jugador intento unirse con la partida empezada");
             skibidi
@@ -226,6 +229,8 @@ int main() {
                 printf("error: servidor lleno\n");
             }
         }
+
+        Sleep(100);
     }
 
     closesocket(server);//esto si no lo pongo no va xd
