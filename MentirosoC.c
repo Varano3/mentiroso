@@ -82,9 +82,8 @@ int comparar(const void *a, const void *b) {
 }
 
 void skipTurn(SOCKET sock){
-    myself.y = setDigit(myself.y, 7, 4);
     myself.x = setDigit(myself.x, 1, getNextPlayerID(ActualID, jugadoresConectados));
-    printf("-----%i------", myself.x);
+    //printf("-----%i------", myself.x);
     setEstado(sock, myself.x, myself.y, myself.z, "skip turn");
 }
 
@@ -167,9 +166,12 @@ int EmpiezaAJugar(SOCKET sock){
         if(descartaste == false) printf("No hay para descartar bro :c");
         imprimirMano(true);
         
+        myself.y = setDigit(myself.y, 7, 3);
     }
     else{
         printf("no se ha implementado eso\n");
+        
+        myself.y = setDigit(myself.y, 7, 1);
         skipTurn(sock);
     }
 }
@@ -195,8 +197,8 @@ int actualizarAnteriorJugada(SOCKET sock){
         printf("Error de conexión o el servidor cerró la conexión.\n");
         skibidi
     }
-    printf("La x de %i, es %i \n", ActualID, myself.x);
-    printf("La x de %i, es %i \n", getLastPlayerID(ActualID, jugadoresConectados), actualLastPlayer.x);
+    //printf("La x de %i, es %i \n", ActualID, myself.x);
+    //printf("La x de %i, es %i \n", getLastPlayerID(ActualID, jugadoresConectados), actualLastPlayer.x);
     if(actualLastPlayer.x != lastPlayer.x){ //el jugador no ha jugado
         lastPlayer = actualLastPlayer;
         myself.x = setDigit(myself.x, 1, getDigit(lastPlayer.x, 1));
@@ -207,7 +209,8 @@ int actualizarAnteriorJugada(SOCKET sock){
         buffer.c = myself.y;
         buffer.d = myself.z;
         actualizarEstado(sock, false);
-        Sleep(100/* + GetRandomInteger(100, 0)*/); //estamos todos sincronizados (mas o menos xd)
+        int a = GetRandomInteger(10, 20);
+        Sleep(100 + a); //estamos todos sincronizados (mas o menos xd)
     }
 
     Sleep(100); //estamos todos sincronizados (mas o menos xd)
