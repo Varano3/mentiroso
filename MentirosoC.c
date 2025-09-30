@@ -117,7 +117,7 @@ void imprimirMano(){
             if(val != 0){
                 printf("%i cartas de %i \n", times, val);
             }
-            else printf("---------------------------------");
+            else printf("---------------------------------\n");
         
             val = (manoActual[i] + 3) / 4;
             times = 1;
