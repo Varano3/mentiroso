@@ -82,6 +82,8 @@ DWORD WINAPI client_thread(LPVOID arg) {//multiplayer data
         }
         else if(buffer.a == 3)
         { //recibir las cartas
+            int a = GetRandomInteger(10, 7* jugadoresConectados);
+            Sleep(200 + a);
             if(gameStarted == false){
                 repartirCartas(52);
                 gameStarted = true;

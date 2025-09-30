@@ -100,9 +100,10 @@ void imprimirMano(bool ordenar){
     if(ordenar == true){
 
         qsort(manoActual, sizeof(manoActual) / sizeof(manoActual[0]), sizeof(int), comparar); // ordenar la mano
+        
+        int val = 0, times = 0;
         for (int i = 0; i < 52; i++)
         {   
-            int val = 0, times = 0;
             if(manoActual[i] == 0) {
                 //if(val != 0){
                 //    printf("%i cartas de %i", times, val);
@@ -116,6 +117,8 @@ void imprimirMano(bool ordenar){
                 if(val != 0){
                     printf("%i cartas de %i \n", times, val);
                 }
+                else printf("---------------------------------");
+            
                 val = (manoActual[i] + 3) / 4;
                 times = 1;
             }
@@ -327,7 +330,8 @@ void atStartingGame(SOCKET sock){ //robar cartas, empieza el de indice 0, etc
 
     jugadoresConectados = baraja.numeroDeJugadores;
 
-    //Sleep(a + 100);
+    int b = GetRandomInteger(10, 7* jugadoresConectados);
+    Sleep(200 + b);
 
     if(baraja.baraja[52] == 10099){
         printf("Cartas recibidas!\n");
