@@ -51,6 +51,7 @@ DWORD WINAPI client_thread(LPVOID arg) {//multiplayer data
             players[idx].y = buffer.c;
             players[idx].z = buffer.d;
             strncpy(players[idx].lastmsg, buffer.msg, NAME_LEN);
+            UpdateID();
         } 
         else if(buffer.a == 2)
         {
@@ -80,7 +81,7 @@ DWORD WINAPI client_thread(LPVOID arg) {//multiplayer data
 
             }
             send(sock, (char*)&reply, sizeof(reply), 0); //quien lea esto es gay
-            ActualID = getDigit(players[ActualID].x, 1);
+            UpdateID();
         }
         else if(buffer.a == 3)
         { //recibir las cartas
@@ -112,16 +113,19 @@ DWORD WINAPI client_thread(LPVOID arg) {//multiplayer data
             baraja.baraja[52] = 10099;
 
             send(sock, (char*)&baraja, sizeof(baraja), 0);
-            //ActualID = getDigit(players[ActualID].x, 1);
+            UpdateID();
         }
         else if(buffer.a == 4){
 
             Player actualLastPlayer;
             
-            ActualID = getDigit(players[ActualID].x, 1);
+            printf("ID: %i ?? -> ", ActualID);
+            
+            UpdateID();
+
             actualLastPlayer = players[getLastPlayerID(ActualID, jugadoresConectados)];
 
-            printf("ActualID: %i, ID: %i", getDigit(actualLastPlayer.x, 1), ActualID);
+            printf("ActualID: %i, ID: %i \n", getDigit(actualLastPlayer.x, 1), ActualID);
 
             send(sock, (char*)&actualLastPlayer, sizeof(actualLastPlayer), 0);
         }

@@ -58,3 +58,7 @@ int setDigit(int number, int position, int newDigit) {
     return number;
 }
 
+void UpdateID(){
+    if(getDigit(players[ActualID].y, 7) != 0) ActualID = getDigit(players[ActualID].x, 1);
+    players[ActualID].y = setDigit(players[ActualID].y, 7, 0);
+}
