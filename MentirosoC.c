@@ -199,7 +199,7 @@ int actualizarAnteriorJugada(SOCKET sock){
     printf("La x de %i, es %i \n", getLastPlayerID(ActualID, jugadoresConectados), actualLastPlayer.x);
     if(actualLastPlayer.x != lastPlayer.x){ //el jugador no ha jugado
         lastPlayer = actualLastPlayer;
-        myself.x = myself.x - getDigit(myself.x, 1) + getDigit(lastPlayer.x, 1);
+        myself.x = setDigit(myself.x, 1, getDigit(lastPlayer.x, 1));
 
         buffer.a = 1; //envia la info nueva
 
