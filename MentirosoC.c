@@ -95,42 +95,35 @@ void endAction(SOCKET sock, int action){
     }
 }
 
-void imprimirMano(bool ordenar){
+void imprimirMano(){
+    
+    printf("Tu mano actual es: \n");
 
-    if(ordenar == true){
-
-        qsort(manoActual, sizeof(manoActual) / sizeof(manoActual[0]), sizeof(int), comparar); // ordenar la mano
+    qsort(manoActual, sizeof(manoActual) / sizeof(manoActual[0]), sizeof(int), comparar); // ordenar la mano
+    
+    int val = 0, times = 0;
+    for (int i = 0; i < 52; i++)
+    {   
+        if(manoActual[i] == 0) {
+            //if(val != 0){
+            //    printf("%i cartas de %i", times, val);
+            //}
+            break; //si ya no hay más cartas, se sale
+        }
+        if((manoActual[i] + 3) / 4 == val){
+            times++;
+        }
+        else {
+            if(val != 0){
+                printf("%i cartas de %i \n", times, val);
+            }
+            else printf("---------------------------------");
         
-        int val = 0, times = 0;
-        for (int i = 0; i < 52; i++)
-        {   
-            if(manoActual[i] == 0) {
-                //if(val != 0){
-                //    printf("%i cartas de %i", times, val);
-                //}
-                break; //si ya no hay más cartas, se sale
-            }
-            if((manoActual[i] + 3) / 4 == val){
-                times++;
-            }
-            else {
-                if(val != 0){
-                    printf("%i cartas de %i \n", times, val);
-                }
-                else printf("---------------------------------");
-            
-                val = (manoActual[i] + 3) / 4;
-                times = 1;
-            }
+            val = (manoActual[i] + 3) / 4;
+            times = 1;
         }
     }
-
-    printf("Tu mano actual es: \n");
-    for (int i = 0; i < 52; i++)
-    {
-        if(manoActual[i] == 0 && (manoActual[i + 1] == 0 || i + 1 == 52)) break; //si ya no hay más cartas, se sale
-        printf("%i ",manoActual[i]);
-    }
+    
     printf("\n");
 }
 
@@ -185,7 +178,7 @@ void descartar4(){
         }
     }
     if(descartaste == false) printf("No hay para descartar bro :c");
-    imprimirMano(true);
+    imprimirMano();
 }
 
 int EmpiezaAJugar(SOCKET sock){
@@ -281,7 +274,7 @@ void onGame(SOCKET sock){//----------------------------------------------------O
 
     if(getDigit(myself.x, 1) == ActualID){
         printf("Es tu turno, jugador %i!\n", ActualID);
-        imprimirMano(false);
+        imprimirMano();
 
         if(getDigit(lastPlayer.y, 7) == 1){
             ContinuaJugada(sock);
@@ -362,7 +355,7 @@ void atStartingGame(SOCKET sock){ //robar cartas, empieza el de indice 0, etc
     }
     else{
         setEstado(sock, 100000000, 100000001 + GetRandomInteger(1,9) * 10, 100000000, "I dont played yet");
-        imprimirMano(true); //ordenar la mano y imprimirla
+        imprimirMano(); //ordenar la mano y imprimirla
     }
 }
 
