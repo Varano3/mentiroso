@@ -150,13 +150,7 @@ int playerTurn; //turno del jugador actual (su ID)
 
 Player lastPlayer;
 
-int EmpiezaAJugar(SOCKET sock){
-    Sleep(30);
-    printf("Que quieres hacer? \n 0 = jugar carta \n 1 = descartar 4 iguales");
-    int decision;
-    scanf("%i", &decision);
-    printf("%i",decision);
-    if(decision == 1){
+void descartar4(){
         bool descartaste = false;
         qsort(manoActual, sizeof(manoActual) / sizeof(manoActual[0]), sizeof(int), comparar); //ordenar la mano por si acaso
         int val = 0, times = 0;
@@ -183,7 +177,16 @@ int EmpiezaAJugar(SOCKET sock){
         }
         if(descartaste == false) printf("No hay para descartar bro :c");
         imprimirMano(true);
-        
+}
+
+int EmpiezaAJugar(SOCKET sock){
+    Sleep(30);
+    printf("Que quieres hacer? \n 0 = jugar carta \n 1 = descartar 4 iguales\n");
+    int decision;
+    scanf("%i", &decision);
+    printf("%i",decision);
+    if(decision == 1){
+        descartar4();
         endAction(sock, 3);
     }
     else{
@@ -194,9 +197,27 @@ int EmpiezaAJugar(SOCKET sock){
     }
 }
 
-int ContinuaJugada(){
+int ContinuaJugada(SOCKET sock){
     Sleep(30);
-    printf("El jugador anterior jugo \n", lastPlayer.y);
+    printf("El jugador anterior jugo %i \n", lastPlayer.y);
+    printf("Que quieres hacer? \n 0 = jugar carta \n 1 = descartar 4 iguales \n 2 = levantar carta\n");
+    int decision;
+    scanf("%i", &decision);
+    printf("%i",decision);
+    if(decision == 1){
+        descartar4();
+        endAction(sock, 3);
+    }
+    else if(decision == 0){
+        printf("no se ha implementado eso\n");
+            
+        endAction(sock, 1);
+    }
+    else if(decision == 2){
+        printf("no se ha implementado eso\n");
+           
+        endAction(sock, 2);
+    }
     skibidi
 }
 
@@ -216,7 +237,7 @@ int actualizarAnteriorJugada(SOCKET sock){
         skibidi
     }
     //printf("La x de %i, es %i \n", ActualID, myself.x);
-    //printf("La x de %i, es %i \n", getLastPlayerID(ActualID, jugadoresConectados), actualLastPlayer.x);
+    printf("La x de %i, es %i \n", getLastPlayerID(ActualID, jugadoresConectados), actualLastPlayer.x);
     if(actualLastPlayer.x != lastPlayer.x){ //el jugador no ha jugado
         lastPlayer = actualLastPlayer;
         myself.x = setDigit(myself.x, 1, getDigit(lastPlayer.x, 1));
@@ -249,7 +270,7 @@ void onGame(SOCKET sock){//----------------------------------------------------O
         imprimirMano(false);
 
         if(getDigit(lastPlayer.y, 7) == 1){
-            ContinuaJugada();
+            ContinuaJugada(sock);
         }
         else{
             EmpiezaAJugar(sock);
