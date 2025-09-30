@@ -118,14 +118,10 @@ DWORD WINAPI client_thread(LPVOID arg) {//multiplayer data
         else if(buffer.a == 4){
 
             Player actualLastPlayer;
-            
-            printf("ID: %i ?? -> ", ActualID);
-            
+                   
             UpdateID();
 
             actualLastPlayer = players[getLastPlayerID(ActualID, jugadoresConectados)];
-
-            printf("ActualID: %i, ID: %i \n", getDigit(actualLastPlayer.x, 1), ActualID);
 
             send(sock, (char*)&actualLastPlayer, sizeof(actualLastPlayer), 0);
         }

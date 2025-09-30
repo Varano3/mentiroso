@@ -15,7 +15,7 @@ la primera variable (x) es el estado actual, "100000000" un uno y 8 numeros dife
 5. los últimos 2 números indican cuantas cartas ha jugado el jugador (max 99), si el jugador jugó más de 99 cartas en total, se mantiene en 99, por ser un perdedor jajaj
 
 la segunda variable (y) es la acción actual, "100000000" un uno y 8 numeros diferentes, empezando por la izquierda y sin contar el primero:
-1. el primero de los números indica si el jugador está jugando cartas (1), levantando cartas (2), ha descartado 4 iguales (3) o no ha jugado todavia (0)
+1. el primero de los números indica si el jugador no ha jugado todavia (0), está jugando cartas (1), levantando cartas (2), ha descartado 4 iguales (3) o ha saltado turno (4), siendo esta última solo para debug
 en caso de que no haya jugado cartas ni haya descartado 4, se omiten los siguientes 7 números con ceros
 2. los siguientes 2 la carta que ha jugado / descartado el jugador (0-52) 
 3. los siguientes 2 la cantidad de cartas que ha jugado el jugador (1-4) (si es descarte siempre es 4)
@@ -82,6 +82,7 @@ int comparar(const void *a, const void *b) {
 }
 
 void skipTurn(SOCKET sock){
+    myself.y = setDigit(myself.y, 7, 4);
     myself.x = setDigit(myself.x, 1, getNextPlayerID(ActualID, jugadoresConectados));
     printf("-----%i------", myself.x);
     setEstado(sock, myself.x, myself.y, myself.z, "skip turn");
