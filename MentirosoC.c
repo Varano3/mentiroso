@@ -1,8 +1,7 @@
 #pragma comment(lib, "ws2_32.lib")
 
 //damn daniel
-
-#include "mirmecocrimenesdeguerra.maven"
+#include "MirmecoFunciones.h"
 
 /*
 El sistema para mandar información es el siguiente:

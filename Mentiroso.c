@@ -1,6 +1,6 @@
 #pragma comment(lib, "ws2_32.lib")
 
-#include "mirmecocrimenesdeguerra.maven"
+#include "MirmecoFunciones.h"
 
 CRITICAL_SECTION lock;//multiplayer data
 
